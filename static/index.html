@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Student Records</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <header class="top">
+    <div class="wrap top-inner">
+      <div>
+        <h1>Student Records</h1>
+        <p class="sub" id="count">Loading…</p>
+      </div>
+      <button class="btn primary" id="addBtn" type="button">Add student</button>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="toolbar">
+      <label class="search">
+        <span class="visually-hidden">Search students</span>
+        <input id="search" type="search" placeholder="Search by name, roll number, email or course" autocomplete="off">
+      </label>
+      <label class="sort">
+        <span>Sort by</span>
+        <select id="sort">
+          <option value="created_at">Date added</option>
+          <option value="first_name">First name</option>
+          <option value="last_name">Last name</option>
+          <option value="roll_number">Roll number</option>
+          <option value="course">Course</option>
+          <option value="year">Year</option>
+        </select>
+      </label>
+      <button class="btn ghost" id="orderBtn" type="button" aria-label="Toggle sort order">Ascending</button>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Roll no.</th>
+            <th scope="col">Name</th>
+            <th scope="col">Course</th>
+            <th scope="col" class="num">Year</th>
+            <th scope="col">Email</th>
+            <th scope="col"><span class="visually-hidden">Actions</span></th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+      <div id="empty" class="empty" hidden></div>
+    </div>
+  </main>
+
+  <!-- Details -->
+  <dialog id="detailDialog" class="panel" aria-labelledby="detailTitle">
+    <div class="panel-head">
+      <h2 id="detailTitle">Student details</h2>
+      <button class="icon-btn" data-close aria-label="Close">&times;</button>
+    </div>
+    <div id="detailBody"></div>
+    <div class="panel-foot">
+      <button class="btn danger" id="detailDelete" type="button">Delete</button>
+      <button class="btn primary" id="detailEdit" type="button">Edit</button>
+    </div>
+  </dialog>
+
+  <!-- Form -->
+  <dialog id="formDialog" class="panel" aria-labelledby="formTitle">
+    <form id="studentForm" novalidate>
+      <div class="panel-head">
+        <h2 id="formTitle">Add student</h2>
+        <button class="icon-btn" type="button" data-close aria-label="Close">&times;</button>
+      </div>
+      <div class="grid">
+        <div class="field"><label for="roll_number">Roll number *</label><input id="roll_number" name="roll_number" required><small class="err" data-err="roll_number"></small></div>
+        <div class="field"><label for="course">Course *</label><input id="course" name="course" required list="courses"><small class="err" data-err="course"></small></div>
+        <div class="field"><label for="first_name">First name *</label><input id="first_name" name="first_name" required><small class="err" data-err="first_name"></small></div>
+        <div class="field"><label for="last_name">Last name *</label><input id="last_name" name="last_name" required><small class="err" data-err="last_name"></small></div>
+        <div class="field wide"><label for="email">Email *</label><input id="email" name="email" type="email" required><small class="err" data-err="email"></small></div>
+        <div class="field"><label for="phone">Phone</label><input id="phone" name="phone" type="tel"><small class="err" data-err="phone"></small></div>
+        <div class="field"><label for="date_of_birth">Date of birth</label><input id="date_of_birth" name="date_of_birth" type="date"><small class="err" data-err="date_of_birth"></small></div>
+        <div class="field">
+          <label for="gender">Gender</label>
+          <select id="gender" name="gender">
+            <option value="">Not specified</option>
+            <option>Female</option><option>Male</option><option>Non-binary</option><option>Prefer not to say</option>
+          </select>
+          <small class="err" data-err="gender"></small>
+        </div>
+        <div class="field"><label for="year">Year of study</label><input id="year" name="year" type="number" min="1" max="8"><small class="err" data-err="year"></small></div>
+        <div class="field wide"><label for="address">Address</label><textarea id="address" name="address" rows="2"></textarea></div>
+      </div>
+      <datalist id="courses"></datalist>
+      <p class="form-error" id="formError" role="alert" hidden></p>
+      <div class="panel-foot">
+        <button class="btn ghost" type="button" data-close>Cancel</button>
+        <button class="btn primary" type="submit" id="saveBtn">Save student</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Confirm delete -->
+  <dialog id="confirmDialog" class="panel small" aria-labelledby="confirmTitle">
+    <div class="panel-head"><h2 id="confirmTitle">Delete student?</h2></div>
+    <p id="confirmText"></p>
+    <div class="panel-foot">
+      <button class="btn ghost" type="button" data-close>Keep record</button>
+      <button class="btn danger solid" type="button" id="confirmDelete">Delete student</button>
+    </div>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="/static/app.js"></script>
+</body>
+</html>
